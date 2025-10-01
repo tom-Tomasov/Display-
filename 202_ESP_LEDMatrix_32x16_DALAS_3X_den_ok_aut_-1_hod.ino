@@ -33,8 +33,8 @@
     // =======================================================================
     // Your config below!   flat
     // =======================================================================
-    const char* ssid     = "TP-Link1";     // SSID of local network
-    const char* password = "marketa12";   // Password 
+    const char* ssid     = "SSD";     // SSID of local network
+    const char* password = "HESLO";   // Password 
       // =======================================================================
      long utcOffset = 1;   //2                 // UTC for Česko zima =1 leto = 2
     //   int summerTime = 0; // letni čas nefunguje  zima +1 leto +2
@@ -764,5 +764,6 @@ void getNtpTime()
           str[5] = '\0';
           return str;
         } 
+
 
 // ========================konec========================================
