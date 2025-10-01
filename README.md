@@ -1,4 +1,4 @@
-# Display- Matrix
+# Display- Matrix 32x16 led . 
 Wemos D1 R2 & mini (esp 8266 D1 mini) .
 Display Led matrix Max7219 16x8 (2x8 max 7219) .
 3x  Dalas (pin 5) 1x foto resistor( pin analog A0 ).
