@@ -1,11 +1,11 @@
 
-//          27-9-2024
+//  27.9.2024-16.10.2025
     
       #include <SolarCalculator.h>
     //  #include <Timezone.h>
-     #include <ESP8266WiFi.h>
+      #include <ESP8266WiFi.h>
       #include <ESP8266HTTPClient.h>
-  #include <NTPClient.h>
+      #include <NTPClient.h>
       #include <WiFiUdp.h>
       #include "fonts.h"   
       #include <OneWire.h>
@@ -34,11 +34,11 @@
     // Your config below!   flat
     // =======================================================================
     const char* ssid     = "SSD";     // SSID of local network
-    const char* password = "HESLO";   // Password 
+    const char* password = "PASSWORD";   // Password 
       // =======================================================================
      long utcOffset = 1;   //2                 // UTC for Česko zima =1 leto = 2
     //   int summerTime = 0; // letni čas nefunguje  zima +1 leto +2
-     long localEpoc = 1;   // 2 časový posun (utcOffset) 0 PŘIDÁNO NA 1 OPOŽDUJE SE DEN O 1 HOD
+     long localEpoc = 0;   // 2 časový posun (utcOffset) 0 PŘIDÁNO NA 1 OPOŽDUJE SE DEN O 1 HOD
      long localMillisAtUpdate = 0; 
    /* 
      TimeChangeRule myStandardTime = {"GMT", Last, Sun, Oct, 2, 1*60};     // {"GMT", First, Sun, Nov, 2, 1*60};
@@ -164,17 +164,18 @@
       if (count > 1) teplota2 = senzoryDS.getTempCByIndex(1);
       if (count > 2) teplota3 = senzoryDS.getTempCByIndex(2);
     //--------------------------------------------------------
-*/
-    }
+  */ 
+      }
 // ==============konec hlavni smyčky-----------------==============================================
-
-       
+        
         char* monthNames[] = {"LEDEN","UNOR","BREZEN","DUBEN","KVETEN","CERVEN","CERVENEC","SRPEN","ZARI","RIJEN","LISTOPAD","PROSINEC"};
         char txt[10];
         static const char weekNames[7][10] PROGMEM ={"PONDELI"," UTERY"," STREDA","CTVRTEK","PATECEK","SOBOTKA"," NEDELE"};
         char txt1[10];
         char buffer[10];
         char buffer1[10];
+       
+      
 //============== Display 0 ===========================
 
          void drawTime0()
@@ -226,7 +227,8 @@
             if (teplota <= -5 && teplota >-10)  { printString("  NANUK", font3x7); }
             if (teplota <= -10 && teplota >-15) { printString(" MRAZAK", font3x7); }
             if (teplota <= -15 && teplota >-25) { printString("SARKOFAG", font3x7); } 
-            if (teplota <= -127)                { printString("  ERROR", font3x7); }
+            if (teplota <= -127)                { printString("  ERROR", font3x7); 
+                 sendCmd(12,10,1);sendCmd(13,10,1);sendCmd(14,10,1); sendCmd(15,10,1);}
                          
           //  for(int i=0;i<32;i++) scr[32+i]<<=1;    //  <<=1    vyška řadku :-) <<=1 je dole  vice je dolu       
 
@@ -325,7 +327,7 @@
         yPos = 0;
         xPos = 34;      //x vice je doprava 
     
-  int mereni = analogRead(A0); //cteni hodnoty fotorezistoru
+ // int mereni = analogRead(A0); //cteni hodnoty fotorezistoru
 
        // Wait for a time TIMEDHT = 4500
           if ((millis() - timerDHT) > TIMEDHT) {
@@ -341,11 +343,11 @@
     if (color == 1 && prumer > 23 && prumer < 26 && h >=4 && h <=8) {  color = 0;// printString("VYCHOD:", font3x7); 
      http.begin(client,"http://192.168.0.210/4/off"); http.GET();  http.end(); // vypni color
      http.begin(client,"http://192.168.0.210/13/off"); http.GET();  http.end(); // vypni color
-           }  
-    if (color == 0 && prumer < 25 && prumer > 20 && h >=15 && h <=22) {  color = 1; //printString("ZAPAD:", font3x7); 
+        sendCmd(12,10,1);sendCmd(13,10,1);sendCmd(14,10,1); sendCmd(15,10,1);    }  
+    if (color == 0 && prumer < 26 && prumer > 20 && h >=15 && h <=22) {  color = 1; //printString("ZAPAD:", font3x7); 
      http.begin(client,"http://192.168.0.210/4/on"); http.GET();  http.end(); // zapni color
      http.begin(client,"http://192.168.0.210/13/on"); http.GET();  http.end(); // zapni color
-         }   
+       sendCmd(12,10,0);sendCmd(13,10,0);sendCmd(14,10,0); sendCmd(15,10,0);   }   
     
    xPos = 53;  
    yPos = 0;  //54
@@ -377,10 +379,13 @@
             //   sprintf(buffer1,"%02d",day);printString(buffer1,digits3x5); 
             //   sprintf(buffer,"%02d.%2d",month,year-2000);    
           //  sendCmd(12,12,0);delay (50);
+    // sprintf(buffer1,"%02d.",day);   printString(buffer1,digits3x5); //dodano
+   //  sprintf(buffer,"%02d.%02d",month,year-2000);  
      sprintf(buffer,"%02d.%02d.%2d",day,month,year-2000);
-     //  sendCmd(12,12,1);
+      printString(buffer,font3x7); 
+          //  sendCmd(12,12,1);
                          //  P.displayZoneText(3, buffer, PA_LEFT, 35, 0, PA_SCROLL_LEFT, PA_SCROLL_LEFT);
-       printString(buffer,font3x7);     // printString(txt, font3x7);
+          // printString(txt, font3x7);
    //   for(int i=0;i<LINE_WIDTH;i++) scr[LINE_WIDTH+i]<<=1;    //  <<=1    vyška řadku :-) <<=1 je dole  vice je dolu
     
                        
@@ -389,7 +394,7 @@
        yPos = 1;
        xPos = 1;
       /*
-      sendCmd(12,10,1);   //jas-1 na pozici 12
+      sendCmd(12,10,1);   //jas=1 na pozici 12
       sendCmd(13,10,1);
       sendCmd(14,10,1);
       sendCmd(15,10,1);
@@ -453,14 +458,16 @@
             yPos = 1;               //    y0 = nahoru
             xPos = 0;            //x vice je doprava 
             if (teplota3 > 45)                   { printString("TOPI HURA", font3x7); } 
-            if (teplota3 <= 45 && teplota3 > 40) { printString("  HYC", font3x7); } 
-            if (teplota3 <= 40 && teplota3 > 35) { printString("  TEPLO", font3x7); }  
-            if (teplota3 <= 35 && teplota3 > 30) { printString(" TROCHU", font3x7); }  
+            if (teplota3 <= 45 && teplota3 > 40) { printString(" HYC", font3x7); } 
+            if (teplota3 <= 40 && teplota3 > 35) { printString("TEPLO ", font3x7);
+             printString("!",digits5x8rn); }  // srdce
+            if (teplota3 <= 35 && teplota3 > 30) { printString(" VICE ", font3x7); 
+            printString("(#)",digits5x8rn);}    //$ nahoru
             if (teplota3 <= 30 && teplota3 > 25) { printString("MALO ", font3x7);
-            printString("($)",digits5x8rn);}
+            printString("($)",digits5x8rn);}    // rovne
             if (teplota3 <= 25 && teplota3 > 20) { printString("NETOPI", font3x7); 
+            printString("(%)",digits5x8rn);}    // dolu
          //   sendCmd(11,10,3); sendCmd(12,10,3); sendCmd(13,10,1);sendCmd(14,10,1); sendCmd(15,10,1); }  
-            printString("(#)",digits5x8rn);}
             if (teplota3 <= 20 && teplota3 > 15) { printString(" CHLADNO", font3x7); }
             if (teplota3 <= 15 && teplota3 > 10) { printString("    ZIMA", font3x7); }       
             if (teplota3 <= 10 && teplota3 > 0 ) { printString("ZMRZNEM ", font3x7); }  
@@ -676,18 +683,27 @@ void getNtpTime()
   h = ((epoch  % 86400L) / 3600) % 24;
   m = (epoch % 3600) / 60;
   s = epoch % 60;
-   }
+    
+   //  if (h >= 24) {
+   //   h -= 24;
+    //  day += 1;
 
+  //---------------------------------------------
 
-    //---------------------------------------------
-   /* Serial.println("UTC time from Google:");
-    Serial.printf("%02d:%02d:%02d\n", h - utcOffset, m, s);
-    Serial.println("Local time:");
-    Serial.printf("%02d:%02d:%02d\n", h, m, s);
-    */
+   /*    
+    Serial.println(day);
+   // Serial.println(weekNames);
+    Serial.println(dayOfWeek);
+    //Serial.printf("%02d:%02d:%02d\n");
+  
+      Serial.println("UTC time from Google:");
+      Serial.printf("%02d:%02d:%02d\n", h - utcOffset, m, s);
+      Serial.println("Local time:");
+      Serial.printf("%02d:%02d:%02d\n", h, m, s);
+    */ 
 //----------------------------------------------------------
 
-      
+    }  
 // =======================================================================
 
 
@@ -764,6 +780,5 @@ void getNtpTime()
           str[5] = '\0';
           return str;
         } 
-
 
 // ========================konec========================================
