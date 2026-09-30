@@ -6,3 +6,4 @@ Display Led matrix Max7219 32x16 led (2x8 max 7219) .
 4 types of clocks .
  Time on light (on-off , foto senzor) .
  time on Magic mirror (on morning 10h and 7h only the weekend) .
+Cesky den v tydnu, měsíc,ovladaní ventilátoru radiatoru.
