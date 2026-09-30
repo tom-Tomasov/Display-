@@ -8,4 +8,4 @@ Display Led matrix Max7219 64x16 led (8x2   max 7219) .
  time on Magic mirror (on morning 10h and 7h only the weekend) .
  Time melody, buzzer = D2; GPIO 4 // piezo, time on medications melodi and pacman, 
 Cesky den v tydnu, měsíc,
-Temperature Automatic summer-ext(dalas) , winter-inter(dalas) :-) ovladaní ventilátoru radiatoru.
+Temperature Automatic summer-ext(dalas) , winter-inter(dalas) :-) Radiator fan control.
