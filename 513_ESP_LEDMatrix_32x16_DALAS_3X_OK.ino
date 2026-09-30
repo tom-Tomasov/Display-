@@ -74,8 +74,8 @@
     //  int pipejRF = 0;
 
     // =======================================================================
-            const char* ssid     = "TP-Link1";     // SSID of local network
-            const char* password = "marketa12";   // Password 
+            const char* ssid     = "XXXXX";     // SSID of local network
+            const char* password = "XXXXXXXXXXXX";   // Password 
     // =======================================================================
      long utcOffset = 2;   //  nejede nechat 1 = zima, 2= leto 
      long localEpoc = 0;   // 2 časový posun (utcOffset) 0 PŘIDÁNO NA 1 OPOŽDUJE SE DEN O 1 HOD
