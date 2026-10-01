@@ -609,7 +609,7 @@ yield(); // krmení watchdogu  ????
   //***********automat  --zima --- teplota radiator ventilator >39 stupnu Celsia**************************
                //  Serial.println(ventilator2);
                 // Serial.println(teplota3); //radiator  // teplota = venku
-       if (month < 6 && month >9) { // říjen,listopad,prosinec,leden,unor,březen,duben,kveten
+       if (month < 6 || month >9) { // říjen,listopad,prosinec,leden,unor,březen,duben,kveten
             yPos = 1;               //    y0 = nahoru
             xPos = 0;            //x vice je doprava 
             if (teplota3 > 45)                   { printString("TOPI HURA", font3x7); } 
